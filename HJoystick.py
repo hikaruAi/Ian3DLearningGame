@@ -47,38 +47,48 @@ class HJoyKeySensor(HJoystickSensor):
         self.buttonEventName = self.eventName + "button_"
         self.axisEventName = self.eventName + "axis_"
         self.mapping = mappingDict
-        self.keyStates = []
+        self.buttonKeyStates = []
+        self.buttonKeyStates_last=[]
         self.axesKeyStates=[]
+        self.axesKeyStates_last=[]
         for i in range(len(self.mapping["buttons"])):
             base.accept(self.mapping["buttons"][i], self._setKey,
                         extraArgs=[i])  # #Will send to _setButton the pressed button number
             base.accept(self.mapping["buttons"][i] + "-up", self._unsetKey,
                         extraArgs=[i])  # #Will send to _setButton the unpressed button number
-            self.keyStates.append(False)
+            self.buttonKeyStates.append(False)
+            self.buttonKeyStates_last.append(False)
             print "Event handler for ",self.mapping["buttons"][i]
         for o in range(len(self.mapping["axes"])):
             self.axesKeyStates.append(list())
+            self.axesKeyStates_last.append(list())
             for p in range(len(self.mapping["axes"][o])):
                 base.accept(self.mapping["axes"][o][p],self._setArrow,extraArgs=[o,p])
                 base.accept(self.mapping["axes"][o][p]+"-up",self._unsetArrow,extraArgs=[o,p])
                 self.axesKeyStates[o].append(False)
+                self.axesKeyStates_last[o].append(False)
         base.taskMgr.add(self._task, "taskForJoystick_" + str(self.id))
+
         print "Axes state keys:",self.axesKeyStates
 
     def _setArrow(self,o,p):
+        self.axesKeyStates_last[o][p]=self.axesKeyStates[o][p]
         self.axesKeyStates[o][p]=True
         #print "Pressed axis:",self.mapping["axes"][o][p]
 
     def _unsetArrow(self,o,p):
+        self.axesKeyStates_last[o][p]=self.axesKeyStates[o][p]
         self.axesKeyStates[o][p]=False
         #print "Freed:",self.mapping["axes"][o][p]
 
     def _setKey(self, k):
-        self.keyStates[k] = True
+        self.axesKeyStates_last[k]=self.axesKeyStates[k]
+        self.buttonKeyStates[k] = True
         #print "Pressed key:",k
 
     def _unsetKey(self, k):
-        self.keyStates[k] = False
+        self.axesKeyStates_last[k]=self.axesKeyStates[k]
+        self.buttonKeyStates[k] = False
         #print "Freed key: ",k
 
     def _task(self, t):
@@ -86,10 +96,10 @@ class HJoyKeySensor(HJoystickSensor):
         for nb in range(len(self.mapping["buttons"])):
             try:
                 joyButtonValue = self.joy.get_button(nb)
-                if self.keyStates[nb] or joyButtonValue:
+                if joyButtonValue:
                     messenger.send(self.buttonEventName + str(nb))
             except:
-                if self.keyStates[nb]:
+                if self.buttonKeyStates[nb]:
                     messenger.send(self.buttonEventName+str(nb))
                     #print self.mapping["buttons"][nb], "- pressed"
         for na in range(len(self.mapping["axes"])):
