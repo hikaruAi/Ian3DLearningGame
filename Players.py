@@ -12,3 +12,6 @@ class Ian(HPlayer):
     def setEvents(self):
         mapping=dict(mappingDict)
         self.joystickSensor=HJoyKeySensor(mapping,0)
+        base.accept(self.joystickSensor.axisEventName+"1",self.axisHandler)
+    def axisHandler(self,axisValue):
+        print "Axis Vertical:",axisValue

@@ -13,6 +13,7 @@ class HJoystickSensor():
         if c > 0:
             self.id = joystickId
             self.joy = pygame.joystick.Joystick(self.id)
+            self.joy.init()
             self.numButtons = self.joy.get_numbuttons()
             self.numAxes = self.joy.get_numaxes()
             self.eventName = "Joystick_" + str(self.id) + "_"
@@ -28,7 +29,7 @@ class HJoystickSensor():
             if self.joy.get_button(b):
                 messenger.send(self.buttonEventName + str(b))
         for a in range(self.numAxes):
-            axisValue = self.joy.get_axis(a)
+            axisValue = self.joy.get_axis(a)*-1 #to make Up positive
             if axisValue != 0:
                 messenger.send(self.axisEventName + str(a), sentArgs[axisValue])
         return t.cont
@@ -93,7 +94,7 @@ class HJoyKeySensor(HJoystickSensor):
                     #print self.mapping["buttons"][nb], "- pressed"
         for na in range(len(self.mapping["axes"])):
             try:
-                axisValue=self.joy.get_axis(na)
+                axisValue=self.joy.get_axis(na)*-1
                 if axisValue !=0:
                     messenger.send(self.axisEventName+str(na),sentArgs=[axisValue])
             except:
