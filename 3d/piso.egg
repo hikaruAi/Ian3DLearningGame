@@ -1,4 +1,25 @@
 <CoordinateSystem> { Z-up } 
+<Material> PisoTestMaterial {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> PisoTest_COlor {
+  "./tex/MaPZone[SpaceTile_diffuse].png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+}
+
   <Group> Piso {
     <Transform> {
       <Matrix4> {
@@ -42,6 +63,8 @@
     
     
     <Polygon> {
+      <TRef> { PisoTest_COlor }
+      <MRef> { PisoTestMaterial }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 0 1 2 3 <Ref> { Piso }}
     }
