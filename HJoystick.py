@@ -97,8 +97,8 @@ class HJoyKeySensor(HJoystickSensor):
                 if axisValue !=0:
                     messenger.send(self.axisEventName+str(na),sentArgs=[axisValue])
             except:
-                if self.mapping["axes"][na][0]:
+                if self.axesKeyStates[na][0]:
                     messenger.send(self.axisEventName+str(na),sentArgs=[-1])
-                elif self.mapping["axes"][na][1]:
+                elif self.axesKeyStates[na][1]:
                     messenger.send(self.axisEventName+str(na),sentArgs=[1])
         return t.cont
