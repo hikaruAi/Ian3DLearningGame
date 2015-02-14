@@ -45,9 +45,20 @@ class HJoyKeySensor(HJoystickSensor):
     def __init__(self, mappingDict, joystickId=0):
         HJoystickSensor.__init__(self, joystickId)
         self.eventName = "JoyKey_" + str(self.id) + "_"
+
+        ##This event sends the value every frame
         self.buttonEventName = self.eventName + "button_"
         self.axisEventName = self.eventName + "axis_"
+
+        ##Value has changed events
         self.axisChangeEventName = self.axisEventName + "changed_"
+
+        #Up events
+        self.axisUpEventName=self.axisEventName+"-up_"
+
+        #Down Events
+        self.axisDownEventName=self.axisEventName+"-down_"
+
         self.mapping = mappingDict
         self.buttonKeyStates = []
         self.buttonKeyStates_last = []
@@ -112,6 +123,10 @@ class HJoyKeySensor(HJoystickSensor):
                 if axisValue != self.axesLastValue[na]:
                     messenger.send(self.axisChangeEventName + str(na),
                                    sentArgs=[self.axesLastValue[na], axisValue])  #[last,new]
+                    if self.axesLastValue[na]==1 and axisValue==0:
+                        messenger.send(self.axisUpEventName+str(na))
+                    elif self.axesLastValue[na]==0 and axisValue==1:
+                        messenger.send(self.axisDownEventName+str(na))
                 self.axesLastValue[na]=axisValue
 
             except:
@@ -126,6 +141,11 @@ class HJoyKeySensor(HJoystickSensor):
                     messenger.send(self.axisChangeEventName + str(na),
                                    sentArgs=[self.axesLastValue[na], value])  #[last,new]
                     #print "Changed:",self.axesLastValue[na],",",value
+                    if abs(self.axesLastValue[na])==1 and value==0:
+                        messenger.send(self.axisUpEventName+str(na))
+                        print "Axis:",na, " -up"
+                    elif self.axesLastValue[na]==0 and abs(value)==1:
+                        messenger.send(self.axisDownEventName+str(na))
                 self.axesLastValue[na]=value
         return t.cont
         ##Agregar un Enet Handler para cada evento enviado y ahi ver el UP y DOWN
