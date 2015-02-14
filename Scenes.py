@@ -46,4 +46,4 @@ class Scene1(HScene):
         return HScene.eggToStatic(self,assets+egg,parent,margin,name)
 
     def loadStatics(self):
-        self.piso=HDynamicObject("Piso",self,assets+"piso",assets+"piso")
+        self.piso=HDynamicObject("Piso",self,assets+"piso",assets+"piso",margin=0.05)

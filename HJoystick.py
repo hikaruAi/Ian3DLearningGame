@@ -74,12 +74,13 @@ class HJoyKeySensor(HJoystickSensor):
     def _setArrow(self,o,p):
         self.axesKeyStates_last[o][p]=self.axesKeyStates[o][p]
         self.axesKeyStates[o][p]=True
+        #print "_setArrow: ",o,",",p,"\n Last:",self.axesKeyStates_last[o][p]," New:",self.axesKeyStates[o][p]
         #print "Pressed axis:",self.mapping["axes"][o][p]
 
     def _unsetArrow(self,o,p):
         self.axesKeyStates_last[o][p]=self.axesKeyStates[o][p]
         self.axesKeyStates[o][p]=False
-        #print "Freed:",self.mapping["axes"][o][p]
+        #print "_unsetArrow: ",o,",",p,"\n Last:",self.axesKeyStates_last[o][p]," New:",self.axesKeyStates[o][p]
 
     def _setKey(self, k):
         self.axesKeyStates_last[k]=self.axesKeyStates[k]
@@ -110,4 +111,7 @@ class HJoyKeySensor(HJoystickSensor):
                     messenger.send(self.axisEventName+str(na),sentArgs=[-1])
                 elif self.axesKeyStates[na][1]:
                     messenger.send(self.axisEventName+str(na),sentArgs=[1])
+                else:
+                    messenger.send(self.axisEventName+str(na),sentArgs=[0])
         return t.cont
+    ##Agregar un Enet Handler para cada evento enviado y ahi ver el UP y DOWN
