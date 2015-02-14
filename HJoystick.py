@@ -35,7 +35,7 @@ class HJoystickSensor():
         return t.cont
         # #Hats y otras cosas que no uso ahorita
 
-mappingDict = {"axes": [["a", "d"], ["s", "w"]],
+mappingDict = {"axes": [["arrow_left", "arrow_right"], ["arrow_down", "arrow_up"]],
                "buttons": ["z", "x"]}
 #mappingDict={"axis":[axis0List[neg,pos],axis1List[neg,pos]....],
             # "buttons":[button0,button1...]}
@@ -96,11 +96,9 @@ class HJoyKeySensor(HJoystickSensor):
         for nb in range(len(self.mapping["buttons"])):
             try:
                 joyButtonValue = self.joy.get_button(nb)
-                if joyButtonValue:
-                    messenger.send(self.buttonEventName + str(nb))
+                messenger.send(self.buttonEventName + str(nb),sentArgs=[joyButtonValue])
             except:
-                if self.buttonKeyStates[nb]:
-                    messenger.send(self.buttonEventName+str(nb))
+                messenger.send(self.buttonEventName+str(nb),sentArgs=[self.buttonKeyStates[nb]])
                     #print self.mapping["buttons"][nb], "- pressed"
         for na in range(len(self.mapping["axes"])):
             try:

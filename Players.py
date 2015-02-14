@@ -10,6 +10,10 @@ class Ian(HPlayer):
         self.setPos(scene.render,x,y,z)
         self.camera=ThirdPersonCamera(self.scene,self.actor,.3,x,y+2,z+.7)
         self.setEvents()
+        #base.taskMgr.add(self._onFrameTask,self.name+"_onFrameTask")
+    def _onFrameTask(self,t):
+        self.body.setLinearMovement(Vec3(),True)
+        return t.cont
     def setEvents(self):
         mapping=dict(mappingDict)
         self.joystickSensor=HJoyKeySensor(mapping,0)
@@ -18,4 +22,6 @@ class Ian(HPlayer):
         dt=globalClock.getDt()
         if self.body.isOnGround():
             if axisValue>0:
-                self.body.setLinearMovement(Vec3(0,-10,0)*dt,True)
+                self.body.setLinearMovement(Vec3(0,-50,0)*dt,True)
+            if axisValue==0:
+                self.body.setLinearMovement(Vec3(),True)
