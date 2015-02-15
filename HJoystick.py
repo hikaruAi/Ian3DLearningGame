@@ -153,7 +153,7 @@ class HJoyKeySensor(HJoystickSensor):
                     if abs(self.axesLastValue[na]) > 0 and axisValue == 0:
                         messenger.send(self.axisUpEventName + str(na))
                     elif self.axesLastValue[na] == 0 and abs(axisValue) > 0:
-                        messenger.send(self.axisDownEventName + str(na))
+                        messenger.send(self.axisDownEventName + str(na),sentArgs=[axisValue])
                 self.axesLastValue[na] = axisValue
 
             except:
@@ -172,7 +172,7 @@ class HJoyKeySensor(HJoystickSensor):
                         messenger.send(self.axisUpEventName + str(na))
                         # print "Axis:", na, " -up"
                     elif self.axesLastValue[na] == 0 and abs(value) > 0:
-                        messenger.send(self.axisDownEventName + str(na))
+                        messenger.send(self.axisDownEventName + str(na),sentArgs=[value])
                 self.axesLastValue[na] = value
         return t.cont
         ##Agregar un Enet Handler para cada evento enviado y ahi ver el UP y DOWN
