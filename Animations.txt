@@ -1,0 +1,4 @@
+iddle 1-30
+run 31-40
+jump 41-56 -Salto +15
+saludo 57-89
