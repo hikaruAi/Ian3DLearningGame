@@ -1,7 +1,8 @@
 # from direct.showbase import DirectObject
 # ********  pygame must be in the Main.py directory
 # THIS FILE MUST BE IN THE MAIN.PY DIRECTORY BECAUSE SOME PATH ISSUES
-
+print "Importing pygame"
+import pygame
 
 mappingDict = {"axes": [["arrow_left", "arrow_right"], ["arrow_down", "arrow_up"]],
                "buttons": ["z", "x"]}
@@ -10,9 +11,6 @@ mappingDict = {"axes": [["arrow_left", "arrow_right"], ["arrow_down", "arrow_up"
 class HJoystickSensor():
     def __init__(self, joystickId=0):
         # print os.getcwd()
-        print "Importing pygame"
-        import pygame
-
         print "Starting Joystick"
         pygame.init()
         pygame.joystick.init()
