@@ -6,7 +6,7 @@ assets="3d/"
 
 class MainGame(HGame):
     def __init__(self):
-        HGame.__init__(self,title="Ian 3D learning game",posY=50, posX=50)
+        HGame.__init__(self,title="Ian 3D learning game")
     def setup(self):
         self.currentScene=Scene1(self,"Scene1")
 
