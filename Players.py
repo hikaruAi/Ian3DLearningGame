@@ -19,6 +19,7 @@ class Ian(HPlayer):
         self.setStates()
         self.walkSpeed = 50
         self.runFactor = 1
+        #\TODO add isBussy=bool
         # base.taskMgr.add(self._onFrameTask,self.name+"_onFrameTask")
 
     def setStates(self):
@@ -30,7 +31,25 @@ class Ian(HPlayer):
         self.stateManager.addState(self.run_state)
         self.jump_state = HState("jump", self._jump_onInit, self._jump_onFrame, self._jump_onExit, self._jump_condition)
         self.stateManager.addState(self.jump_state)
+        self.saludo_state = HState("saludo", self._saludo_onInit, self._saludo_onFrame, self._saludo_onExit,
+                                   self._saludo_condition)
+        self.stateManager.addState(self.saludo_state)
         self.stateManager.setState("iddle")
+
+    # Saludo
+    def _saludo_onInit(self):
+        self.actor.play("saludo")
+        self.stopMov()
+
+    def _saludo_onFrame(self):
+        if self.actor.getCurrentFrame("saludo")>30 and self.body.isOnGround():
+            self.stateManager("iddle")
+
+    def _saludo_onExit(self):
+        self.actor.stop("saludo")
+
+    def _saludo_condition(self):
+        return self.body.isOnGround()
 
     # Jump
     def _jump_onInit(self):
@@ -39,14 +58,16 @@ class Ian(HPlayer):
 
     def _jump_onFrame(self):
         frame = int(self.actor.getCurrentFrame("jump"))
-        if frame == 15:
+        if frame == 7 and self.body.isOnGround():
             self.body.setMaxJumpHeight(2)
-            self.body.setJumpSpeed(4)
+            self.body.setJumpSpeed(2)
             self.body.doJump()
-        if int(self.actor.getNumFrames("jump") == frame) and self.body.isOnGround():
+        elif frame == 8 and self.body.isOnGround() is False:
+            self.body.setLinearMovement(Vec3(0, -1.5 * self.walkSpeed * self.runFactor, 0) * globalClock.getDt(), True)
+        elif frame > 8 and self.body.isOnGround():
+            self.stopMov()
             self.stateManager("iddle")
-        elif self.body.isOnGround():
-            self.stateManager("iddle")
+
 
     def _jump_onExit(self):
         self.actor.stop("jump")
@@ -75,7 +96,7 @@ class Ian(HPlayer):
         self.stopMov()
 
     def _iddle_onFrame(self):
-        #self.stopMov()
+        # self.stopMov()
         pass
 
     def _iddle_onExit(self):
@@ -90,13 +111,20 @@ class Ian(HPlayer):
         base.accept(self.joystickSensor.axisDownEventName + "1", self._onAxis1Down)
         base.accept(self.joystickSensor.axisUpEventName + "1", self._onAxis1Up)
         base.accept(self.joystickSensor.axisEventName + "1", self._onAxis1Frame)
-        base.accept(self.joystickSensor.buttonDownEventName+"0",self._onButton0Down)
+        base.accept(self.joystickSensor.buttonDownEventName + "0", self._onButton0Down)
+        base.accept(self.joystickSensor.buttonDownEventName + "1", self._onButton1Down)
+
+    def _onButton1Down(self):
+        self.stateManager("saludo")
 
     def _onButton0Down(self):
         self.stateManager("jump")
 
     def _onAxis1Frame(self, v):
-        if v != 0: self.runFactor = v
+        if v != 0:
+            self.runFactor = v
+        else:
+            self.runFactor = 1
 
     def _onAxis1Up(self):
         self.stateManager("iddle")
@@ -105,6 +133,6 @@ class Ian(HPlayer):
         self.runFactor = v
         self.stateManager("run")
 
-    ##
+    # #
     def stopMov(self):
         self.body.setLinearMovement(Vec3(), True)
