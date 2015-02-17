@@ -19,6 +19,8 @@ class Ian(HPlayer):
         self.setStates()
         self.walkSpeed = 50
         self.runFactor = 1
+        self.rotFactor=0
+        self.rotMiltiplier=8000
         #\TODO add isBussy=bool
         # base.taskMgr.add(self._onFrameTask,self.name+"_onFrameTask")
 
@@ -80,7 +82,9 @@ class Ian(HPlayer):
         self.actor.loop("run")
 
     def _run_onFrame(self):
-        self.body.setLinearMovement(Vec3(0, -self.walkSpeed * self.runFactor, 0) * globalClock.getDt(), True)
+        dt=globalClock.getDt()
+        self.rotate()
+        self.body.setLinearMovement(Vec3(0, -self.walkSpeed * self.runFactor, 0) * dt, True)
         self.actor.setPlayRate(self.runFactor, "run")
 
     def _run_onExit(self):
@@ -96,7 +100,7 @@ class Ian(HPlayer):
         self.stopMov()
 
     def _iddle_onFrame(self):
-        # self.stopMov()
+        self.rotate(0.5)
         pass
 
     def _iddle_onExit(self):
@@ -113,6 +117,11 @@ class Ian(HPlayer):
         base.accept(self.joystickSensor.axisEventName + "1", self._onAxis1Frame)
         base.accept(self.joystickSensor.buttonDownEventName + "0", self._onButton0Down)
         base.accept(self.joystickSensor.buttonDownEventName + "1", self._onButton1Down)
+        base.accept(self.joystickSensor.axisEventName+"0",self._onAxis0Frame)
+
+    def _onAxis0Frame(self,v):
+        if v!=self.rotFactor:
+            self.rotFactor=v
 
     def _onButton1Down(self):
         self.stateManager("saludo")
@@ -134,5 +143,9 @@ class Ian(HPlayer):
         self.stateManager("run")
 
     # #
+    def rotate(self,fact=1):
+        dt=globalClock.getDt()
+        if self.rotFactor !=0:
+            self.body.setAngularMovement(-self.rotFactor*dt*self.rotMiltiplier)
     def stopMov(self):
         self.body.setLinearMovement(Vec3(), True)
