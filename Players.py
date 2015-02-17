@@ -12,7 +12,7 @@ class Ian(HPlayer):
                       "jump": "3d/Ian-jump",
                       "run": "3d/Ian-run",
                       "saludo": "3d/Ian-saludo"}
-        HPlayer.__init__(self, scene.name + "_Ian", scene, "3d/Ian", "3d/ianCollision", animations, margin=.01)
+        HPlayer.__init__(self, scene.name + "_Ian", scene, "3d/Ian", "3d/ianCollision", animations, margin=.02)
         self.setPos(scene.render, x, y, z)
         self.camera = ThirdPersonCamera(self.scene, self.actor, .3, x, y + 2, z + .7, speed=3)
         self.setEvents()
@@ -68,7 +68,7 @@ class Ian(HPlayer):
             self.body.setJumpSpeed(2)
             self.body.doJump()
         elif frame == 8 and self.body.isOnGround() is False:
-            self.body.setLinearMovement(Vec3(0, -1.5 * self.walkSpeed * self.runFactor, 0) * globalClock.getDt(), True)
+            self.body.setLinearMovement(Vec3(0, -1.5 * self.walkSpeed * self.runFactor* globalClock.getDt(), .1) , True)
         elif frame > 8 and self.body.isOnGround():
             self.stopMov()
             self.stateManager("iddle")
@@ -79,7 +79,7 @@ class Ian(HPlayer):
         self.isBusy = False
 
     def _jump_condition(self):
-        return self.body.isOnGround()
+        return self.body.isOnGround() and self.isBusy is False
 
     # Run
     def _run_onInit(self):
@@ -88,7 +88,7 @@ class Ian(HPlayer):
     def _run_onFrame(self):
         dt = globalClock.getDt()
         self.rotate()
-        self.body.setLinearMovement(Vec3(0, -self.walkSpeed * self.runFactor, 0) * dt, True)
+        self.body.setLinearMovement(Vec3(0, -self.walkSpeed * self.runFactor* dt, 0.1) , True)
         self.actor.setPlayRate(self.runFactor, "run")
 
     def _run_onExit(self):
