@@ -1,5 +1,5 @@
 <CoordinateSystem> { Z-up } 
-<Material> PisoTestMaterial {
+<Material> Piso_PastoMaterial {
   <Scalar> diffr { 0.640000 }
   <Scalar> diffg { 0.640000 }
   <Scalar> diffb { 0.640000 }
@@ -12,8 +12,8 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Texture> PisoTest_COlor {
-  "./tex/MaPZone[SpaceTile_diffuse].png"
+<Texture> PastoColor {
+  "./tex/MaPZone[Grass01_diffuse].png"
   <Scalar> envtype { MODULATE }
   <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
   <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
@@ -63,8 +63,8 @@
     
     
     <Polygon> {
-      <TRef> { PisoTest_COlor }
-      <MRef> { PisoTestMaterial }
+      <TRef> { PastoColor }
+      <MRef> { Piso_PastoMaterial }
       <Normal> {0.000000 0.000000 1.000000}
       <VertexRef> { 0 1 2 3 <Ref> { Piso }}
     }
