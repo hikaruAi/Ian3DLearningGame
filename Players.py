@@ -22,6 +22,7 @@ class Ian(HPlayer):
         self.rotFactor = 0
         self.rotMiltiplier = 8000
         self.isBusy = False
+        self.actor.setZ(self,-0.02)
         # base.taskMgr.add(self._onFrameTask,self.name+"_onFrameTask")
 
     def setStates(self):
