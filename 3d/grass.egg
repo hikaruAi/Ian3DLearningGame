@@ -1,0 +1,159 @@
+<CoordinateSystem> { Z-up } 
+<Material> grassBladeTile {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.640000 }
+  <Scalar> diffa { 0.000000 }
+  <Scalar> specr { 0.000000 }
+  <Scalar> specg { 0.000000 }
+  <Scalar> specb { 0.000000 }
+  <Scalar> speca { 0.000000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> grassBladeTile {
+  "./tex/grassBladeTile.png"
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Scalar> alpha-file { "./tex/grassBladeTile.png" }
+  <Scalar> alpha-file-channel { 4 }
+  <Scalar> alpha { BINARY }
+}
+
+  <Group> grassBlade {
+    <Transform> {
+      <Matrix4> {
+        1.000000 0.000000 0.000000 0.000000 
+        0.000000 1.000000 0.000000 0.000000 
+        0.000000 0.000000 1.000000 0.000000 
+        0.000000 0.000000 0.000000 1.000000 
+      }
+    }
+    
+    <VertexPool> grassBlade {
+    
+      <Vertex> 0 {
+        -0.5 -0.19811514019966125 0.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          0.000000 0.000000
+        }
+      }
+      <Vertex> 1 {
+        0.5 -0.19811514019966125 0.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          1.000000 0.000000
+        }
+      }
+      <Vertex> 2 {
+        0.5 -0.19811508059501648 1.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          1.000000 1.000000
+        }
+      }
+      <Vertex> 3 {
+        -0.5 -0.19811508059501648 1.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          0.000000 1.000000
+        }
+      }
+      <Vertex> 4 {
+        -0.041597142815589905 0.55333411693573 0.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          0.000000 0.000000
+        }
+      }
+      <Vertex> 5 {
+        0.4584028124809265 -0.3126913011074066 0.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          1.000000 0.000000
+        }
+      }
+      <Vertex> 6 {
+        0.4584028720855713 -0.3126913011074066 1.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          1.000000 1.000000
+        }
+      }
+      <Vertex> 7 {
+        -0.04159708321094513 0.55333411693573 1.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          0.000000 1.000000
+        }
+      }
+      <Vertex> 8 {
+        -0.012674819678068161 0.588655412197113 2.9802322387695312e-08
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          0.000000 0.000000
+        }
+      }
+      <Vertex> 9 {
+        -0.512674868106842 -0.2773699462413788 2.9802322387695312e-08
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          1.000000 0.000000
+        }
+      }
+      <Vertex> 10 {
+        -0.5126748085021973 -0.27737000584602356 1.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          1.000000 1.000000
+        }
+      }
+      <Vertex> 11 {
+        -0.012674760073423386 0.5886553525924683 1.0
+        <RGBA> { 0.450980 0.611765 0.145098 1.0 }
+        
+        <UV>  {
+          0.000000 1.000000
+        }
+      }}
+    
+    
+    <Polygon> {
+      <TRef> { grassBladeTile }
+      <MRef> { grassBladeTile }
+      <Normal> {0.000000 -1.000000 0.000000}
+      <BFace> { 1 }
+      <VertexRef> { 0 1 2 3 <Ref> { grassBlade }}
+    }
+    <Polygon> {
+      <TRef> { grassBladeTile }
+      <MRef> { grassBladeTile }
+      <Normal> {-0.866025 -0.500000 0.000000}
+      <BFace> { 1 }
+      <VertexRef> { 4 5 6 7 <Ref> { grassBlade }}
+    }
+    <Polygon> {
+      <TRef> { grassBladeTile }
+      <MRef> { grassBladeTile }
+      <Normal> {-0.866025 0.500000 0.000000}
+      <BFace> { 1 }
+      <VertexRef> { 8 9 10 11 <Ref> { grassBlade }}
+    }
+  }
