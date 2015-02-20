@@ -2,6 +2,7 @@ from HPanda.HScene import HScene
 from HPanda.HGameObject import HDynamicObject
 from Players import Ian
 from panda3d.core import loadPrcFileData
+from Grass import GrassBlade
 
 assets="3d/"
 windowTitle = "Loading..."
@@ -9,7 +10,7 @@ windowX = 640
 windowY = 480
 perpixelShading = False
 showFPS = True
-debugPhysics = True
+debugPhysics = False
 debugView = False
 debugLights = False
 pauseKey = "p"
@@ -33,6 +34,7 @@ if pystats:
 class Scene1(HScene):
     def __init__(self,showBase,name):
         HScene.__init__(self,showBase,physicsDebug=True,name=name)
+        self.debugDrawing=debugPhysics
         self.setPhysics()
         self.loadStatics()
         self.setPlayer()
@@ -47,3 +49,11 @@ class Scene1(HScene):
 
     def loadStatics(self):
         self.piso=HDynamicObject("Piso",self,assets+"piso",assets+"piso",margin=0.05)
+        #Grass
+        print "Before grass"
+        self.testGrass=GrassBlade()
+        for x in range(0,10):
+            for y in range(0,10):
+                t=GrassBlade()
+                t.reparentTo(self.render)
+                t.setPos(x/2.0,y/2.0,0)
